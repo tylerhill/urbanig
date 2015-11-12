@@ -12,7 +12,21 @@ Instagram.configure do |config|
   config.client_secret = '512403d85abd46b0acdd97a44b8b4ac0'
 end
 
-get '/' do
+get '/' do 
+  '<a href="/oauth/connect">Connectttt</a>'
+end
+
+get '/oauth/connect' do
+  redirect Instagram.authorize_url(:redirect_uri => CALLBACK_URL)
+end
+
+get '/oauth/callback' do
+  response = Instagram.get_access_token(params[:code], :redirect_uri => CALLBACK_URL)
+  session[:access_token] = response.access_token
+  redirect '/nav'
+end
+
+get '/nav' do
   client = Instagram.client(:access_token => session[:access_token])
   user = client.user
   @igConfig = {
@@ -28,14 +42,4 @@ get '/' do
   liquid :index, :locals => { :recent => @srcs }
   
 end
-
-#get '/oauth/connect' do
-#  redirect Instagram.authorize_url(:redirect_uri => CALLBACK_URL)
-#end
-#
-#get '/oauth/callback' do
-#  response = Instagram.get_access_token(params[:code], :redirect_uri => CALLBACK_URL)
-#  session[:access_token] = response.access_token
-#  redirect '/nav'
-#end
 
