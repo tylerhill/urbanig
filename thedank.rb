@@ -5,7 +5,7 @@ set :views, settings.root + '/app/views'
 
 enable :sessions
 
-CALLBACK_URL = 'http://localhost:4567/oauth/callback'
+CALLBACK_URL = 'https://protected-forest-6085.herokuapp.com/oauth/callback'
 
 Instagram.configure do |config|
   config.client_id = '0a28ee9a6bb84eb29745d2499a96d759'
